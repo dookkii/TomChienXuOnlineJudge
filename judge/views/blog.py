@@ -84,7 +84,8 @@ def vote_blog(request, delta):
     except BlogVote.DoesNotExist:
         pass
     except Exception as error:
-        return HttpResponseBadRequest(_(f'Something wrong has occurred dev guys :( | {error}'), content_type='text/plain')
+        return HttpResponseBadRequest(_(f'Something wrong has occurred dev guys :( | {error}'),
+                                      content_type='text/plain')
 
     vote = BlogVote()
     vote.blog_id = blog_id
