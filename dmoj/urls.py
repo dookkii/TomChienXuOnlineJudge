@@ -35,8 +35,10 @@ REGISTRATION_COMPLETE_TEMPLATE = 'registration/registration_complete.html' if SE
                                  else 'registration/activation_complete.html'
 
 REGISTRATION_OPEN = getattr(settings, 'REGISTRATION_OPEN', True)
-TOMCHIENXU_REGISTRATION_VIEW = RegistrationView.as_view() if REGISTRATION_OPEN \
-                               else RedirectView.as_view(url='/accounts/register/closed')
+TOMCHIENXU_REGISTRATION_VIEW = (
+    RegistrationView.as_view() if REGISTRATION_OPEN
+    else RedirectView.as_view(url='/accounts/register/closed')
+)
 
 register_patterns = [
     path('activate/complete/',
