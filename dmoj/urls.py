@@ -34,8 +34,8 @@ SEND_ACTIVATION_EMAIL = getattr(settings, 'SEND_ACTIVATION_EMAIL', True)
 REGISTRATION_COMPLETE_TEMPLATE = 'registration/registration_complete.html' if SEND_ACTIVATION_EMAIL \
                                  else 'registration/activation_complete.html'
 
-TOMCHIENXU_REGISTRATION_GATE_OPEN = getattr(settings, 'TOMCHIENXU_REGISTRATION_GATE_OPEN', True)
-TOMCHIENXU_REGISTRATION_VIEW = RegistrationView.as_view() if TOMCHIENXU_REGISTRATION_GATE_OPEN \
+REGISTRATION_OPEN = getattr(settings, 'REGISTRATION_OPEN', True)
+TOMCHIENXU_REGISTRATION_VIEW = RegistrationView.as_view() if REGISTRATION_OPEN \
                                 else RedirectView.as_view(url='/accounts/register/closed')
 
 register_patterns = [
