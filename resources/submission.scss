@@ -8,6 +8,8 @@
 
 #submissions-table {
     background: rgba($color_primary100, .01);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
 }
 
 .submissions-status-table {

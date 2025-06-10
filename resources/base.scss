@@ -325,3 +325,38 @@ math {
         padding: 0 5px;
     }
 }
+
+// TomChienXu Additional Features
+
+// Scrollbar modifier
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #3f4045;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(221, 221, 221, 0.7);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(221, 221, 221);
+}
+
+// (Input) Range slider color changer
+.noUi-connect {
+    background: $tomchienxu !important;
+}
+
+// Make snow unselectable (and un-Ctrl-A-able)
+.falling-snow-unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

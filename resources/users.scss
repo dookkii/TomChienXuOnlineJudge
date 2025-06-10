@@ -217,6 +217,7 @@ img.user-gravatar {
 #submission-activity {
     #submission-activity-actions {
         text-align: center;
+        margin-bottom: 5px;
         #prev-year-action, #next-year-action {
             font-size: 1.75em;
         }
@@ -229,6 +230,8 @@ img.user-gravatar {
     #submission-activity-display {
         border: 1px solid $color_primary25;
         border-radius: $table_header_rounding;
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(3px);
 
         .info-bar {
             display: flex;

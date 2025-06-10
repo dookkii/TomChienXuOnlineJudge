@@ -97,14 +97,34 @@
 
         <script>
             snowStorm.snowColor = "#99ccff";
-            snowStorm.flakesMaxActive = 70;
+            snowStorm.flakesMaxActive = 100;
             snowStorm.useTwinkleEffect = true;
             snowStorm.followMouse = false;
             snowStorm.snowStick = false;
             snowStorm.useMeltEffect = true;
-            snowStorm.vMaxX = 3;
-            snowStorm.vMaxY = 3;
-            snowStorm.className = "unselectable";
+            snowStorm.vMaxX = 2;
+            snowStorm.vMaxY = 2;
+            snowStorm.className = "falling-snow-unselectable";
+        </script>
+    {% elif TOMCHIENXU_CUSTOM_THEME == "SPRING" %}
+        <style>
+            #page-container {
+                background-image: url(/static/tomchienxu-themes/spring/cherry-blossoms-clear.png);
+                background-size: 100%;
+            }
+        </style>
+        <script src="/static/tomchienxu-themes/winter/snowstorm.js"></script>
+
+        <script>
+            snowStorm.snowColor = "pink";
+            snowStorm.flakesMaxActive = 100;
+            snowStorm.useTwinkleEffect = true;
+            snowStorm.followMouse = false;
+            snowStorm.snowStick = false;
+            snowStorm.useMeltEffect = true;
+            snowStorm.vMaxX = 2;
+            snowStorm.vMaxY = 2;
+            snowStorm.className = "falling-snow-unselectable";
         </script>
     {% endif %}
 
