@@ -152,7 +152,7 @@ class APIMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        full_token = request.META.get('HTTP_AUTHORIZATION', '')
+        full_token = request.headers.get('authorization', '')
         if not full_token:
             return self.get_response(request)
 
@@ -226,10 +226,10 @@ class MiscConfigMiddleware:
     def __call__(self, request):
         domain = get_current_site(request).domain
         request.misc_config = MiscConfigDict(language=request.LANGUAGE_CODE, domain=domain)
-        
+
         if not request.user.is_authenticated:
-            request.misc_config.home_page_top = getattr(settings, "TOMCHIENXU_HOME_PAGE_TOP_CONTENT", "")
-        
+            request.misc_config.home_page_top = getattr(settings, 'TOMCHIENXU_HOME_PAGE_TOP_CONTENT', '')
+
         return self.get_response(request)
 
 

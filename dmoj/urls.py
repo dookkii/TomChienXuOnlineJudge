@@ -11,7 +11,6 @@ from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.generic import RedirectView
-from martor.views import markdown_search_user
 
 from judge.feed import AtomBlogFeed, AtomCommentFeed, AtomProblemFeed, BlogFeed, CommentFeed, ProblemFeed
 from judge.sitemap import sitemaps
@@ -23,9 +22,11 @@ from judge.views.problem_data import ProblemDataView, ProblemSubmissionDiff, \
     problem_data_file, problem_init_view
 from judge.views.register import ActivationView, RegistrationView
 from judge.views.select2 import AssigneeSelect2View, CommentSelect2View, ContestSelect2View, \
-    ContestUserSearchSelect2View, OrganizationSelect2View, OrganizationUserSelect2View, ProblemSelect2View, \
-    TagGroupSelect2View, TagSelect2View, TicketUserSelect2View, UserSearchSelect2View, UserSelect2View
+    ContestUserSearchSelect2View, OrganizationSelect2View, OrganizationUserSearchSelect2View, \
+    OrganizationUserSelect2View, ProblemSelect2View, TagGroupSelect2View, TagSelect2View, TicketUserSelect2View, \
+    UserSearchSelect2View, UserSelect2View
 from judge.views.widgets import martor_image_uploader
+from martor.views import markdown_search_user
 
 admin.autodiscover()
 
@@ -33,8 +34,11 @@ SEND_ACTIVATION_EMAIL = getattr(settings, 'SEND_ACTIVATION_EMAIL', True)
 REGISTRATION_COMPLETE_TEMPLATE = 'registration/registration_complete.html' if SEND_ACTIVATION_EMAIL \
                                  else 'registration/activation_complete.html'
 
-TOMCHIENXU_REGISTRATION_GATE_OPEN = getattr(settings, 'TOMCHIENXU_REGISTRATION_GATE_OPEN', True)
-TOMCHIENXU_REGISTRATION_VIEW = RegistrationView.as_view() if TOMCHIENXU_REGISTRATION_GATE_OPEN else RedirectView.as_view(url="/accounts/register/closed")
+REGISTRATION_OPEN = getattr(settings, 'REGISTRATION_OPEN', True)
+TOMCHIENXU_REGISTRATION_VIEW = (
+    RegistrationView.as_view() if REGISTRATION_OPEN
+    else RedirectView.as_view(url='/accounts/register/closed')
+)
 
 register_patterns = [
     path('activate/complete/',
@@ -287,7 +291,10 @@ urlpatterns = [
     path('organization/<slug:slug>', include([
         path('', organization.OrganizationHome.as_view(), name='organization_home'),
         path('/<int:page>', organization.OrganizationHome.as_view(), name='organization_home'),
-        path('/users/', organization.OrganizationUsers.as_view(), name='organization_users'),
+        path('/users/', include([
+            path('', organization.OrganizationUsers.as_view(), name='organization_users'),
+            path('find', organization.org_user_ranking_redirect, name='org_user_ranking_redirect'),
+        ])),
         path('/join', organization.JoinOrganization.as_view(), name='join_organization'),
         path('/leave', organization.LeaveOrganization.as_view(), name='leave_organization'),
         path('/edit', organization.EditOrganization.as_view(), name='edit_organization'),
@@ -351,6 +358,8 @@ urlpatterns = [
             path('user_search', UserSearchSelect2View.as_view(), name='user_search_select2_ajax'),
             path('contest_users/<str:contest>', ContestUserSearchSelect2View.as_view(),
                  name='contest_user_search_select2_ajax'),
+            path('org_users/<slug:slug>', OrganizationUserSearchSelect2View.as_view(),
+                 name='org_user_search_select2_ajax'),
             path('ticket_user', TicketUserSelect2View.as_view(), name='ticket_user_select2_ajax'),
             path('ticket_assignee', AssigneeSelect2View.as_view(), name='ticket_assignee_select2_ajax'),
         ])),
@@ -426,16 +435,6 @@ urlpatterns = [
 
     path('magazine/', MagazinePage.as_view(), name='magazine'),
 ]
-
-# favicon_paths = ['apple-touch-icon-180x180.png', 'apple-touch-icon-114x114.png', 'android-chrome-72x72.png',
-#                  'apple-touch-icon-57x57.png', 'apple-touch-icon-72x72.png', 'apple-touch-icon.png', 'mstile-70x70.png',
-#                  'android-chrome-36x36.png', 'apple-touch-icon-precomposed.png', 'apple-touch-icon-76x76.png',
-#                  'apple-touch-icon-60x60.png', 'android-chrome-96x96.png', 'mstile-144x144.png', 'mstile-150x150.png',
-#                  'safari-pinned-tab.svg', 'android-chrome-144x144.png', 'apple-touch-icon-152x152.png',
-#                  'favicon-96x96.png',
-#                  'favicon-32x32.png', 'favicon-16x16.png', 'android-chrome-192x192.png', 'android-chrome-48x48.png',
-#                  'mstile-310x150.png', 'apple-touch-icon-144x144.png', 'browserconfig.xml', 'manifest.json',
-#                  'apple-touch-icon-120x120.png', 'mstile-310x310.png']
 
 favicon_paths = []
 
