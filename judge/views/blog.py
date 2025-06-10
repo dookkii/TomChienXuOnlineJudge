@@ -55,7 +55,7 @@ def vote_blog(request, delta):
         return HttpResponseBadRequest()
 
     try:
-        blog = BlogPost.objects.filter(id=blog_id).get()
+        BlogPost.objects.filter(id=blog_id).get()
     except BlogPost.DoesNotExist:
         return HttpResponseNotFound(_('Blog post not found.'), content_type='text/plain')
 
@@ -64,7 +64,7 @@ def vote_blog(request, delta):
 
     try:
         existing_vote = BlogVote.objects.get(blog_id=blog_id, voter=request.profile)
-        
+
         existing_vote_score = existing_vote.score
 
         if existing_vote_score == delta:
@@ -76,15 +76,15 @@ def vote_blog(request, delta):
             new_delta = delta * 2
 
         BlogPost.objects.get(id=blog_id).vote(new_delta)
-        
+
         existing_vote.score = delta
-        existing_vote.save(update_fields=["score"])
-        
+        existing_vote.save(update_fields=['score'])
+
         return HttpResponse('success', content_type='text/plain')
     except BlogVote.DoesNotExist:
         pass
-    except:
-        return HttpResponseBadRequest(_('Something wrong has occurred dev guys :('), content_type='text/plain')
+    except Exception as error:
+        return HttpResponseBadRequest(_(f'Something wrong has occurred dev guys :( | {error}'), content_type='text/plain')
 
     vote = BlogVote()
     vote.blog_id = blog_id
