@@ -140,12 +140,14 @@
                 $('.pass-req').toggle('fast');
                 return false;
             });
-            try {
-                var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                if (typeof tz === 'string' && $('#id_timezone option[value="' + tz + '"]').length) {
-                    $('#id_timezone').val(tz).change();
-                }
-            } catch (e) {}
+
+            // TomChienXu: This will now be determined by the server's timezone instead of the user's browser.
+            // try {
+            //     var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            //     if (typeof tz === 'string' && $('#id_timezone option[value="' + tz + '"]').length) {
+            //         $('#id_timezone').val(tz).change();
+            //     }
+            // } catch (e) {}
         });
     </script>
     {% if form.captcha %}
