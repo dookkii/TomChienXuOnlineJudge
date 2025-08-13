@@ -282,7 +282,7 @@
             {% if request.organization is not defined %}
                 <li class="home-nav-element"><a href="{{ url('home') }}">{% include "site-logo-fragment.html" %}</a></li>
                 <li class="home-nav-element"><span class="nav-divider"></span></li>
-                <li class="home-menu-item"><a href="{{ url('home') }}" class="nav-home">{{ _('Home') }}</a></li>
+                <li class="home-menu-item"><a href="{{ url('home') }}" class="nav-home"><b>{{ _('Home') }}</b></a></li>
                 {% for node in mptt_tree(nav_bar) recursive %}
                     <li>
                         <b>
