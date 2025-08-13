@@ -210,6 +210,13 @@
     <hr style="padding-top: 0.3em">
 
     <div class="problem-info-entry">
+        <i class="fa fa-solid fa-info-circle fa-fw"></i><span class="pi-name">{{ _('ID:') }}</span>
+        <span class="pi-value">{{ problem.code }}</span>
+    </div>
+
+    <hr style="padding-top: 0.3em">
+
+    <div class="problem-info-entry">
         <i class="fa fa-check fa-fw"></i><span class="pi-name">{{ _('Points:') }}</span>
         <span class="pi-value">
             {% if contest_problem %}
